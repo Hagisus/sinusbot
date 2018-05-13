@@ -135,7 +135,7 @@ $(function(){
         //normal channel with name
         element = $("<li>")
           .addClass("channel")
-          .addClass(channel.maxClients > 0 ? "opened" : "closed")
+          .addClass(channel.maxClients != 0 ? "opened" : "closed")
           .text(channel.name)
         
         
