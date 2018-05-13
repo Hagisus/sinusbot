@@ -24,7 +24,7 @@ $(function(){
 
   function fillInstances(){
 
-    requestInstances().done(function(data){
+    return requestInstances().done(function(data){
       data.forEach((instance)=>{
         $('#select_instance_options').append(
           $('<a class="dropdown-item" href="#">')
@@ -45,13 +45,9 @@ $(function(){
     })
   }
 
-  function attachUI(){
-    attachDropdown();
-  }
-
   function initialize(){
     fillInstances()
-    attachUI()
+      .done(attachDropdown)
   }
 
   initialize()
