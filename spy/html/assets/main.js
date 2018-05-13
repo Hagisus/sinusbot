@@ -166,6 +166,8 @@ $(function(){
         element.html("&nbsp;")
       }
 
+      element.appendTo($root)
+
       //clients and children channels
       if (channel.children.length > 0 || channel.clients.length > 0){
         var $children = $("<ul>").appendTo($root)
@@ -173,8 +175,6 @@ $(function(){
         if (channel.clients.length > 0 ) renderClients($children, channel.clients)
         if (channel.children.length > 0) renderChannel($children, channel.children[0])
       }
-      
-      element.appendTo($root)
       
       if (!channel.next)
         break

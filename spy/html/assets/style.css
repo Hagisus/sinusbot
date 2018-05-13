@@ -2,6 +2,9 @@ ul.channels{
   margin: 0;
   padding: 0;
 }
+ul.channels ul.channel, ul{
+  padding-left: 1em;
+}
 ul.channels li.channel, ul.channels li.client{
   list-style: none;
 }
