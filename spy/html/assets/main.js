@@ -129,23 +129,35 @@ $(function(){
     var spacer_re = /^\[spacer\d+\]$/
 
     while(true){
+      element = $("<li>")
+          .addClass("channel")
+          .attr("id", "channel_"+channel.id)
+          .data('channel_id', channel.id)
+          
       if (!spacer_re.test(channel.name)){
         //normal channel with name
-        element = $("<li>")
-          .addClass("channel")
+        element
           .addClass(channel.maxClients != 0 ? "opened" : "closed")
           .text(channel.name)
         
-        
       }else{
         //spacer
-        element = $("<li>")
-          .addClass("channel")
-          .html("&nbsp;")
+        element.html("&nbsp;")
       }
 
-      if (channel.children.length > 0){
+      //clients and children channels
+      if (channel.children.length > 0 || channel.clients.length > 0){
         var $children = $("<ul>").appendTo(element)
+
+        channel.clients.forEach( (client)=>{
+          $("<li>")
+            .addClass("client")
+            .addText(client.nick)
+            .attr("id", "client_"+client.id)
+            .data('client_id', client.id)
+            .appendTo($children)
+        })
+
         renderChannel($children, channel.children[0])
       }
       

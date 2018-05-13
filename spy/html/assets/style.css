@@ -2,22 +2,26 @@ ul.channels{
   margin: 0;
   padding: 0;
 }
-ul.channels li.channel{
+ul.channels li.channel, ul.channels li.client{
   list-style: none;
 }
-ul.channels li.channel.opened:before, ul.channels li.channel.closed:before{
+ul.channels li.channel.opened:before,
+ul.channels li.channel.closed:before,
+ul.channels li.client:before{
   content: '';
   display: inline-block;
   width: 1em;
   height: 1em;
-  background-image: url(channel_green_subscribed.svg);
   margin-right: 3px;
 }
 ul.channels li.channel.opened:before{
-  background-image: url(channel_green_subscribed.svg);
+  background-image: url("channel_green_subscribed.svg");
 }
 ul.channels li.channel.closed:before{
-  background-image: url(channel_red_subscribed.svg);
+  background-image: url("channel_red_subscribed.svg");
+}
+ul.channels li.client:before{
+  background-image: url("player_off.svg");
 }
 
 #channels_card_body{
