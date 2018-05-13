@@ -26,6 +26,9 @@ ul.channels li.channel.closed:before{
 ul.channels li.client:before{
   background-image: url("player_off.svg");
 }
+ul.channels li.client.me:before{
+  background-image: url("player_on.svg");
+}
 
 #channels_card_body{
   max-height: 30em;

@@ -137,7 +137,7 @@ $(function(){
   function renderClients($root, clients){
     clients.forEach( (client)=>{
       $("<li>")
-        .addClass("client")
+        .addClass("client" + (client.name == current_instance.name ? " me" : ""))
         .text(client.nick)
         .attr("id", "client_"+client.id)
         .data('client_id', client.id)
