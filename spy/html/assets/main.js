@@ -111,7 +111,7 @@ $(function(){
       })
   }
   function fillClients(){
-    $target =  $("message_target").empty()
+    $target =  $("#message_target").empty()
     
     clients.forEach( (client) =>{
       $("<option>")
