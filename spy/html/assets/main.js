@@ -94,7 +94,7 @@ $(function(){
         //sort children
         var sortChildren = function(parent){
           parent.children.sort(
-            (a,b) => {return a.order > b.order}
+            (a,b) => {return a.order - b.order}
           )
           parent.children.forEach( (child)=>{
             sortChildren(child)
