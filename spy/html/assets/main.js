@@ -39,7 +39,7 @@ $(function(){
 
   }
   function fillChannels(){
-    requestChannels()
+    return requestChannels()
       .done(function(data){
         //reset data
         var _channels = []
@@ -123,8 +123,7 @@ $(function(){
   function changeInstance(uuid, name){
     current_instance = {uuid, name}
 
-    fillChannels()
-    fillClients()
+    fillChannels().done(fillClients)
   }
 
   function attachInstancesDropdown(){
@@ -137,6 +136,7 @@ $(function(){
 
         changeInstance($t.data("uuid"), $t.text())
       })
+      .first().click()
   }
   function attachRefreshButtons(){
     $("#refresh_channels_button")
@@ -202,10 +202,6 @@ $(function(){
   function initialize(){
     fillInstances()
       .done(attachInstancesDropdown)
-      .done(()=>{ //select first instance
-        console.log("Click 1st instance", channels, clients)
-        $("#select_instance_options").children().first().click()
-      })
       .done(attachRefreshButtons)
   }
 
