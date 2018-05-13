@@ -7,7 +7,7 @@ $(function(){
   function doRequest(url, data){
     var req_settings = {
       headers: {"Authorization": "bearer "+localStorage.getItem("token")},
-      dataType: 'json',
+      dataType: "json",
     }
     if (data){
       req_settings.headers["Content-Type"] = "application/json"
@@ -28,10 +28,10 @@ $(function(){
 
     return requestInstances().done(function(data){
       data.forEach((instance)=>{
-        $('#select_instance_options').append(
+        $("#select_instance_options").append(
           $('<a class="dropdown-item" href="#">')
-            .data('uuid', instance['uuid'])
-            .text(instance['nick'])
+            .data("uuid", instance["uuid"])
+            .text(instance["nick"])
         )
       })
       
@@ -48,7 +48,7 @@ $(function(){
         //the server
         _channels[0] = {
           id: 0,
-          name: 'server',
+          name: "server",
           parent: -1,
           order: -1,
           clients: [],
@@ -57,12 +57,13 @@ $(function(){
 
         data.forEach((channel)=>{
           //copy data from request to array
-          _channels[channel['id']] = {
+          _channels[channel["id"]] = {
             id: channel.id,
             name: channel.name,
             parent: channel.parent,
             order: channel.order,
             clients: channel.clients,
+            maxClients: channel.maxClients,
             children: [],
           };
         })
@@ -117,11 +118,11 @@ $(function(){
   }
 
   function attachInstancesDropdown(){
-    $('#select_instance_options').children().click( function(e){
+    $("#select_instance_options").children().click( function(e){
       $t = $(e.target)
-      $('#select_instance').text( $t.text() )
+      $("#select_instance").text( $t.text() )
 
-      changeInstance($t.data('uuid'), $t.text())
+      changeInstance($t.data("uuid"), $t.text())
     })
   }
 
@@ -130,19 +131,23 @@ $(function(){
     var spacer_re = /^\[spacer\d+\]$/
 
     while(true){
-      if (!spacer_re.test(channel.name))
+      if (!spacer_re.test(channel.name)){
         //normal channel with name
         element = $("<li>")
-          .addClass('channel opened')
+          .addClass("channel")
+          .addClass(channel.maxClients > 0 ? "opened" : "closed")
           .text(channel.name)
-      else
+        
+        
+      }else{
         //spacer
         element = $("<li>")
-          .addClass('channel')
-          .text("&nbsp;")
+          .addClass("channel")
+          .html("&nbsp;")
+      }
 
       if (channel.children.length > 0){
-        var $children = $('<ul>').appendTo(element)
+        var $children = $("<ul>").appendTo(element)
         renderChannel($children, channel.children[0])
       }
       
