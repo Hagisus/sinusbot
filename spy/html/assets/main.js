@@ -113,6 +113,9 @@ $(function(){
   function fillClients(){
     $target =  $("#message_target").empty()
     clients.forEach( (client) =>{
+      if (client.nick == current_instance.name)
+        return
+        
       $("<option>")
         .val(client.id)
         .text(client.nick)
