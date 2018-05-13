@@ -106,7 +106,7 @@ $(function(){
             sortChildren(child)
           })
         }
-        //sortChildren(channels_tree[0])
+        sortChildren(channels_tree[0])
         
         renderChannels()
       })
