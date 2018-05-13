@@ -112,7 +112,6 @@ $(function(){
   }
   function fillClients(){
     $target =  $("#message_target").empty()
-    
     clients.forEach( (client) =>{
       $("<option>")
         .val(client.id)
@@ -123,6 +122,7 @@ $(function(){
 
   function changeInstance(uuid, name){
     current_instance = {uuid, name}
+
     fillChannels()
     fillClients()
   }
@@ -137,9 +137,6 @@ $(function(){
 
         changeInstance($t.data("uuid"), $t.text())
       })
-    
-    $("#select_instance_options")
-      .children().first().click()
   }
   function attachRefreshButtons(){
     $("#refresh_channels_button")
@@ -206,6 +203,9 @@ $(function(){
     fillInstances()
       .done(attachInstancesDropdown)
       .done(attachRefreshButtons)
+      .done(()=>{ //select first instance
+        $("#select_instance_options").children().first().click()
+      })
   }
 
   initialize()
