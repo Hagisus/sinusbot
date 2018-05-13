@@ -131,7 +131,7 @@ $(function(){
       element = $("<li>").text(channel.name)
 
       if (channel.children.length > 0){
-        var $children = element.append('<ul>')
+        var $children = $('<ul>').appendTo(element)
         renderChannel($children, channel.children[0])
       }
       
