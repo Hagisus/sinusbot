@@ -124,6 +124,17 @@ $(function(){
     })
   }
 
+  function renderClients($root, clients){
+    channel.clients.forEach( (client)=>{
+      $("<li>")
+        .addClass("client")
+        .Text(client.nick)
+        .attr("id", "client_"+client.id)
+        .data('client_id', client.id)
+        .appendTo($root)
+    })
+  }
+
   function renderChannel($root, channel){
     var element
     var spacer_re = /^\[spacer\d+\]$/
@@ -147,17 +158,9 @@ $(function(){
 
       //clients and children channels
       if (channel.children.length > 0 || channel.clients.length > 0){
-        var $children = $("<ul>").appendTo(element)
+        var $children = $("<ul>").appendTo($root)
 
-        channel.clients.forEach( (client)=>{
-          $("<li>")
-            .addClass("client")
-            .addText(client.nick)
-            .attr("id", "client_"+client.id)
-            .data('client_id', client.id)
-            .appendTo($children)
-        })
-
+        renderClients($children, channel.clients)
         renderChannel($children, channel.children[0])
       }
       
@@ -170,7 +173,6 @@ $(function(){
   }
 
   function renderChannels(){
-    console.log(channels_tree, channels, clients)
     var $root = $("#roomsTree").empty()
     renderChannel($root, channels_tree[0])
   }
