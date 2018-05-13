@@ -160,8 +160,8 @@ $(function(){
       if (channel.children.length > 0 || channel.clients.length > 0){
         var $children = $("<ul>").appendTo($root)
 
-        renderClients($children, channel.clients)
-        renderChannel($children, channel.children[0])
+        if (channel.clients.length > 0 ) renderClients($children, channel.clients)
+        if (channel.children.length > 0) renderChannel($children, channel.children[0])
       }
       
       element.appendTo($root)
