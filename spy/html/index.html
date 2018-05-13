@@ -57,17 +57,20 @@
 
         <br/>
 
-        <div class="card text-white bg-primary">
-            <h5 class="card-header"><span class="align-middle">Messages Log</span>
-              <button class="btn btn-light btn-sm float-right"  id="refresh_messages_button"><i class="fas fa-sync"></i></button>
-            </h5>
-            <div class="card-body bg-light text-dark">
-              <ul>
-                  <li>1</li>
-                  <li>2</li>
-                  <li>3</li>
-                  <li>5</li>
-                </ul>
+        <div class="card text-white">
+            <div class="card-header">
+              <!-- <h5 class="align-middle">Messages Log</h5> -->
+              <!-- <button class="btn btn-light btn-sm float-right"  id="refresh_messages_button"><i class="fas fa-sync"></i></button> -->
+              <ul class="nav nav-tabs card-header-tabs" id="messages_nav_tab" role="tablist">
+                <li class="nav-item"><a class="nav-link active" id="nav_messages_tab_1" data-toggle="tab" href="#messages_tab_1" aria-controls="messages_tab_1" aria-selected="true">Server</a></li>
+                <li class="nav-item"><a class="nav-link" id="nav_messages_tab_2" data-toggle="tab" href="#messages_tab_2" aria-controls="messages_tab_2" aria-selected="false">Channel</a></li>
+                <li class="nav-item"><a class="nav-link" id="nav_messages_tab_3" data-toggle="tab" href="#messages_tab_3" aria-controls="messages_tab_3" aria-selected="false">Adminek xx01</a></li>
+              </ul>
+            </div>
+            <div class="card-body text-dark tab-content" id="messages_tabContent">
+                <div class="tab-pane fade show active" id="messages_tab_1" role="tabpanel" aria-labelledby="nav_messages_tab_1">...</div>
+                <div class="tab-pane fade" id="messages_tab_2" role="tabpanel" aria-labelledby="nav_messages_tab_2">???</div>
+                <div class="tab-pane fade" id="messages_tab_3" role="tabpanel" aria-labelledby="nav_messages_tab_3">!!!</div>
             </div>
           </div> <!-- end of card -->
 
