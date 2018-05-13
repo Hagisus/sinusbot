@@ -133,12 +133,12 @@ $(function(){
       if (!spacer_re.test(channel.name))
         //normal channel with name
         element = $("<li>")
-          .class('channel opened')
+          .addClass('channel opened')
           .text(channel.name)
       else
         //spacer
         element = $("<li>")
-          .class('channel')
+          .addClass('channel')
           .text("&nbsp;")
 
       if (channel.children.length > 0){
