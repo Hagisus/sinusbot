@@ -19,3 +19,8 @@ ul.channels li.channel.opened:before{
 ul.channels li.channel.closed:before{
   background-image: url(channel_red_subscribed.svg);
 }
+
+#channels_card_body{
+  max-height: 30em;
+  overflow-y: auto;
+}
