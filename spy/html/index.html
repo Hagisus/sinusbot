@@ -8,6 +8,7 @@
 
     <link href="assets/bootstrap.min.css" rel="stylesheet">
     <link href="assets/fontawesome-all.min.css" rel="stylesheet">
+    <link href="assets/style.css" rel="stylesheet">
 
     <script src="assets/jquery.min.js"></script>
     <script src="assets/bootstrap.min.js"></script>
@@ -45,20 +46,27 @@
       <div class="col-8">
 
         <div class="card text-white bg-primary">
-          <h5 class="card-header"><span class="align-middle">Rooms</span> <a href="#" class="btn btn-light btn-sm float-right"><i class="fas fa-sync"></i></a> </h5>
+          <h5 class="card-header"><span class="align-middle">Channels</span> <a href="#" class="btn btn-light btn-sm float-right"><i class="fas fa-sync"></i></a> </h5>
           <div class="card-body bg-light text-dark">
-            <ul>
-              <li>1</li>
-              <li>2</li>
-              <li>3</li>
-              <li>
+            <ul class="channels" id="roomsTree">
+              <li class="channel">&nbsp;</li>
+              <li class="channel opened">Gabinet Szefa</li>
+              <li class="channel opened">Administracyjny Dywanik</li>
+              <li class="channel">&nbsp;</li>
+              <li class="channel opened">Poczekalnia</li>
+              <li class="channel">&nbsp;</li>
+              <li class="channel opened">Memiory</li>
+              <li class="channel">&nbsp;</li>
+              <li class="channel closed">
+                Pogadanki
                 <ul>
-                  <li>11</li>
-                  <li>21</li>
-                  <li>31</li>
+                  <li class="channel opened">Pogadanki #1</li>
+                  <li class="channel opened">Pogadanki #2</li>
+                  <li class="channel opened">Pogadanki #3</li>
                 </ul>
               </li>
-              <li>5</li>
+              <li class="channel">&nbsp;</li>
+              <li class="channel closed">Gracze LoL</li>
             </ul>
           </div>
         </div> <!-- end of card -->
