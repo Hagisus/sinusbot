@@ -50,7 +50,7 @@ $(function(){
           id: 0,
           name: 'server',
           parent: -1,
-          order: 0,
+          order: -1,
           clients: [],
           children: []
         }
@@ -71,6 +71,9 @@ $(function(){
         _channels.forEach((channel)=>{
           if (channel.parent != -1)
             _channels[channel.parent].children.push(channel)
+          if (_channels.order != -1)
+          _channels[channel.order].next = channel
+
           channel.clients = channel.clients.map((client)=>{
             return {
               id: client.id,
@@ -100,7 +103,7 @@ $(function(){
             sortChildren(child)
           })
         }
-        sortChildren(channels_tree[0])
+        //sortChildren(channels_tree[0])
         
         renderChannels()
       })
