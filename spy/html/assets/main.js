@@ -128,7 +128,7 @@ $(function(){
     clients.forEach( (client)=>{
       $("<li>")
         .addClass("client")
-        .Text(client.nick)
+        .text(client.nick)
         .attr("id", "client_"+client.id)
         .data('client_id', client.id)
         .appendTo($root)
