@@ -125,7 +125,7 @@ $(function(){
   }
 
   function renderClients($root, clients){
-    channel.clients.forEach( (client)=>{
+    clients.forEach( (client)=>{
       $("<li>")
         .addClass("client")
         .Text(client.nick)
