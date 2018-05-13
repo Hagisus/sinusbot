@@ -1,7 +1,8 @@
 $(function(){
-  var current_instance = null;
-  var channels = [];
-  var clients = new Set();
+  var current_instance = null
+  var channels_tree = []
+  var channels = new Set()
+  var clients = new Set()
 
   function doRequest(url, data){
     var req_settings = {
@@ -41,14 +42,14 @@ $(function(){
     requestChannels()
       .done(function(data){
         //reset data
-        channels = []
+        var _channels = []
         clients.clear()
 
         //the server
-        channels[0] = {
+        _channels[0] = {
           id: 0,
           name: 'server',
-          parent: 0,
+          parent: -1,
           order: 0,
           clients: [],
           children: []
@@ -56,7 +57,7 @@ $(function(){
 
         data.forEach((channel)=>{
           //copy data from request to array
-          channels[channel['id']] = {
+          _channels[channel['id']] = {
             id: channel.id,
             name: channel.name,
             parent: channel.parent,
@@ -67,13 +68,14 @@ $(function(){
         })
 
         //fill children array and limit clients info
-        channels.forEach((channel)=>{
-          channels[channel.parent].children.push(channel)
+        _channels.forEach((channel)=>{
+          if (channel.parent != -1)
+            _channels[channel.parent].children.push(channel)
           channel.clients = channel.clients.map((client)=>{
             return {
               id: client.id,
               uid: client.uid,
-              groupts: client.g,
+              groups: client.g,
               nick: client.nick
             }
           })
@@ -82,7 +84,12 @@ $(function(){
           channel.clients.forEach((client)=>{
             clients.add({client})
           })
+
+          channels.add(channel)
         })
+
+        //remove excess channels
+        channels_tree[0] = _channels[0]
 
         //sort children
         var sortChildren = function(parent){
@@ -93,7 +100,7 @@ $(function(){
             sortChildren(child)
           })
         }
-        //sortChildren(channels[0])
+        sortChildren(channels_tree[0])
         
         renderChannels()
       })
