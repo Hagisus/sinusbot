@@ -120,7 +120,7 @@ $(function(){
     })
   }
   function renderChannels(){
-    console.log(channels, clients)
+    console.log(channels_tree, channels, clients)
   }
 
   function initialize(){
