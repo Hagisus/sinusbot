@@ -20,7 +20,7 @@ $(function(){
     return doRequest("/api/v1/bot/instances")
   }
   function requestChannels(){
-    return doRequest("/api/v1/bot/i/"+current_instance+"/channels")
+    return doRequest("/api/v1/bot/i/"+current_instance.uuid+"/channels")
   }
 
   function fillInstances(){
