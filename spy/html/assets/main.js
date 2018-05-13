@@ -202,10 +202,11 @@ $(function(){
   function initialize(){
     fillInstances()
       .done(attachInstancesDropdown)
-      .done(attachRefreshButtons)
       .done(()=>{ //select first instance
+        console.log("Click 1st instance", channels, clients)
         $("#select_instance_options").children().first().click()
       })
+      .done(attachRefreshButtons)
   }
 
   initialize()
