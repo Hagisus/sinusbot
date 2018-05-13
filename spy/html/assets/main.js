@@ -91,7 +91,7 @@ $(function(){
 
           channels[channel.id] = $.extend({},channel)
         })
-        unset(_channels[0].next)
+        delete _channels[0].next
 
         //remove excess channels
         channels_tree[0] = _channels[0]
@@ -124,7 +124,7 @@ $(function(){
       changeInstance($t.data('uuid'), $t.text())
     })
   }
-  
+
   function renderChannel($root, channel){
     var element
     while(true){
