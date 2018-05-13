@@ -1,25 +1,18 @@
 $(function(){
-
-  console.log("OK");
-
-  const address = "http://127.0.0.1:8087"
-
   var current_instance = null;
 
   function doRequest(url, data){
-    var headers = {"Authorization": "bearer "+localStorage.getItem("token")}
-
-    if (data) headers["Content-Type"] = "application/json"
-
-    var method = data ? "POST" : "GET"
-    var send_data = data ? JSON.stringify(data) : undefined;
-
-    return request = $.ajax(address+url, {
-      headers: headers,
-      method: method,
+    var req_settings = {
+      headers: {"Authorization": "bearer "+localStorage.getItem("token")},
       dataType: 'json',
-      data: send_data,
-    } )
+    }
+    if (data){
+      req_settings.headers["Content-Type"] = "application/json"
+      req_settings.method = "POST"
+      req_settings.data = data
+    }
+
+    return $.ajax(url, req_settings)
   }
   function requestInstances(){
     return doRequest("/api/v1/bot/instances")
@@ -32,14 +25,16 @@ $(function(){
   function fillInstances(){
 
     requestInstances().done(function(data){
-      for(instance in data){
+      data.forEach((instance)=>{
         $('#select_instance_options').append(
           $('<ac lass="dropdown-item" href="#">')
-            .data('uuid', data['uuid'])
-            .text(data['nick'])
+            .data('uuid', instance['uuid'])
+            .text(instance['nick'])
         )
-      }
+      })
+      
     })
+
   }
 
   function initialize(){
