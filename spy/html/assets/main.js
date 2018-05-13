@@ -37,8 +37,21 @@ $(function(){
 
   }
 
+  function attachDropdown(){
+    $('#select_instance_options').children().click( function(e){
+      $t = $(e.target)
+      $('#select_instance').text( $t.text() )
+      current_instance = $t.data('uuid')
+    })
+  }
+
+  function attachUI(){
+    attachDropdown();
+  }
+
   function initialize(){
     fillInstances()
+    attachUI()
   }
 
   initialize()
