@@ -113,8 +113,7 @@ $(function(){
   function initialize(){
     fillInstances()
       .done(attachInstancesDropdown)
-    
-    fillChannels()
+      .done(fillChannels)
   }
 
   initialize()
