@@ -86,7 +86,7 @@ $(function(){
           //copy clients
           channel.clients.sort( (a,b)=>{return a.nick.localeCompare(b.nick)})
           channel.clients.forEach((client)=>{
-            clients.add({client})
+            clients.add(client)
           })
 
           channels[channel.id] = $.extend({},channel)
