@@ -110,10 +110,22 @@ $(function(){
         renderChannels()
       })
   }
+  function fillClients(){
+    $target =  $("message_target")
+      .clear()
+    
+    clients.forEach( (client) =>{
+      $("<option>")
+        .val(client.id)
+        .text(client.nick)
+        .appendTo($target)
+    })
+  }
 
   function changeInstance(uuid, name){
     current_instance = {uuid, name}
     fillChannels()
+    fillClients()
   }
 
   function attachInstancesDropdown(){
