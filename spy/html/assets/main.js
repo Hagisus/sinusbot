@@ -72,9 +72,7 @@ $(function(){
         _channels.forEach((channel)=>{
           if (channel.parent != -1)
             _channels[channel.parent].children.push(channel)
-          if (channel.order != -1)
-            if (channel.order == 0) _channels[channel.parent].next = channel
-            else _channels[channel.order].next = channel
+          if (channel.order > 0) _channels[channel.order].next = channel
 
           channel.clients = channel.clients.map((client)=>{
             return {
