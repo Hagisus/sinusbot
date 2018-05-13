@@ -144,7 +144,7 @@ $(function(){
   function renderChannels(){
     console.log(channels_tree, channels, clients)
     var $root = $("#roomsTree").empty()
-    renderChannel($root, channels_tree)
+    renderChannel($root, channels_tree[0])
   }
 
   function initialize(){
