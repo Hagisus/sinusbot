@@ -127,8 +127,19 @@ $(function(){
 
   function renderChannel($root, channel){
     var element
+    var spacer_re = /^\[spacer\d+\]$/
+
     while(true){
-      element = $("<li>").text(channel.name)
+      if (!spacer_re.test(channel.name))
+        //normal channel with name
+        element = $("<li>")
+          .class('channel opened')
+          .text(channel.name)
+      else
+        //spacer
+        element = $("<li>")
+          .class('channel')
+          .text("&nbsp;")
 
       if (channel.children.length > 0){
         var $children = $('<ul>').appendTo(element)
