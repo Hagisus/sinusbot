@@ -1,5 +1,7 @@
 $(function(){
   var current_instance = null;
+  var channels = [];
+  var clients = new Set();
 
   function doRequest(url, data){
     var req_settings = {
@@ -17,7 +19,6 @@ $(function(){
   function requestInstances(){
     return doRequest("/api/v1/bot/instances")
   }
-
   function requestChannels(instanceId){
     return doRequest("/api/v1/bot/i/"+instanceId+"/channels")
   }
@@ -36,19 +37,88 @@ $(function(){
     })
 
   }
+  function fillChannels(){
+    requestChannels()
+      .done(function(data){
+        //reset data
+        channels = []
+        clients.clear()
 
-  function attachDropdown(){
+        //the server
+        channels[0] = {
+          id: 0,
+          name: 'server',
+          parent: 0,
+          order: 0,
+          clients: [],
+          children: []
+        }
+
+        data.forEach((channel)=>{
+          //copy data from request to array
+          channels[channel['id']] = {
+            id: channel.id,
+            name: channel.name,
+            parent: channel.parent,
+            order: channel.order,
+            clients: channel.clients,
+            children: [],
+          };
+        })
+
+        //fill children array and limit clients info
+        channels.forEach((channel)=>{
+          channels[channel.parent].children.push(channel)
+          channel.clients = channel.clients.map((client)=>{
+            return {
+              id: client.id,
+              uid: client.uid,
+              groupts: client.g,
+              nick: client.nick
+            }
+          })
+
+          //copy clients
+          channel.clients.forEach((client)=>{
+            clients.add({client})
+          })
+        })
+
+        //sort children
+        var sortChildren = function(parent){
+          parent.children.sort(
+            (a,b) => {return a.order > b.order}
+          )
+          parent.children.forEach( (child)=>{
+            sortChildren(child)
+          })
+        }
+        sortChildren(channels[0])
+        
+        renderChannels()
+      })
+  }
+
+  function attachInstancesDropdown(){
     $('#select_instance_options').children().click( function(e){
       $t = $(e.target)
       $('#select_instance').text( $t.text() )
       current_instance = $t.data('uuid')
     })
   }
+  function renderChannels(){
+    console.log(channels, clients)
+  }
 
   function initialize(){
     fillInstances()
-      .done(attachDropdown)
+      .done(attachInstancesDropdown)
+    
+    fillChannels()
   }
 
   initialize()
+  
+  //temporary variable for debugging purposes
+  window.__debuggk = this
 })
