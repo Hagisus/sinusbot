@@ -19,8 +19,8 @@ $(function(){
   function requestInstances(){
     return doRequest("/api/v1/bot/instances")
   }
-  function requestChannels(instanceId){
-    return doRequest("/api/v1/bot/i/"+instanceId+"/channels")
+  function requestChannels(){
+    return doRequest("/api/v1/bot/i/"+current_instance+"/channels")
   }
 
   function fillInstances(){
