@@ -97,7 +97,8 @@ $(function(){
 
         //sort children
         var sortChildren = function(parent){
-          
+          //make sure, that the order:0 is the first child
+          parent.children.sort( (a,b) => {return a.order-b.order;} )
 
           parent.children.forEach( (child)=>{
             sortChildren(child)
@@ -122,8 +123,28 @@ $(function(){
       changeInstance($t.data('uuid'), $t.text())
     })
   }
+  function renderChannel($root, channel){
+    var element
+    while(true){
+      element = $("<li>").text(channel.name)
+
+      if (channel.children.length > 0){
+        var $children = element.append('ul')
+        renderChannel($children, channel.children[0])
+      }
+      
+      element.appendTo($root)
+      
+      if (!channel.next)
+        break
+      channel = channel.next
+    }
+  }
+
   function renderChannels(){
     console.log(channels_tree, channels, clients)
+    var $root = $("#roomsTree").empty()
+    renderChannel($root, channels_tree)
   }
 
   function initialize(){
