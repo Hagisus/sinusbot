@@ -125,6 +125,9 @@ $(function(){
 
         changeInstance($t.data("uuid"), $t.text())
       })
+    
+    $("#select_instance_options")
+      .children().first().click()
   }
   function attachRefreshButtons(){
     $("#refresh_channels_button")
