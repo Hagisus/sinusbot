@@ -93,7 +93,7 @@ $(function(){
             sortChildren(child)
           })
         }
-        sortChildren(channels[0])
+        //sortChildren(channels[0])
         
         renderChannels()
       })
