@@ -27,7 +27,7 @@ $(function(){
     requestInstances().done(function(data){
       data.forEach((instance)=>{
         $('#select_instance_options').append(
-          $('<ac lass="dropdown-item" href="#">')
+          $('<a class="dropdown-item" href="#">')
             .data('uuid', instance['uuid'])
             .text(instance['nick'])
         )
