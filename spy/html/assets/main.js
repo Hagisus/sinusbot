@@ -116,17 +116,22 @@ $(function(){
   }
 
   function attachInstancesDropdown(){
-    $("#select_instance_options").children().click( function(e){
-      $t = $(e.target)
-      $("#select_instance").text( $t.text() )
+    $("#select_instance_options")
+      .children()
+      .off("click")
+      .click( function(e){
+        $t = $(e.target)
+        $("#select_instance").text( $t.text() )
 
-      changeInstance($t.data("uuid"), $t.text())
-    })
+        changeInstance($t.data("uuid"), $t.text())
+      })
   }
   function attachRefreshButtons(){
-    $("#refresh_channels_button").click((e)=>{
-      fillChannels()
-    })
+    $("#refresh_channels_button")
+      .off("click")
+      .click((e)=>{
+        fillChannels()
+      })
   }
 
   function renderClients($root, clients){
@@ -185,6 +190,7 @@ $(function(){
   function initialize(){
     fillInstances()
       .done(attachInstancesDropdown)
+      .done(attachRefreshButtons)
   }
 
   initialize()
