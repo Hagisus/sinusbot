@@ -1,7 +1,7 @@
 $(function(){
   var current_instance = null
   var channels_tree = []
-  var channels = new Set()
+  var channels = []
   var clients = new Set()
 
   function doRequest(url, data){
@@ -72,7 +72,8 @@ $(function(){
           if (channel.parent != -1)
             _channels[channel.parent].children.push(channel)
           if (_channels.order != -1)
-          _channels[channel.order].next = channel
+            if (_channels.order == 0) _channels[channel.parent].next = channel
+            else _channels[channel.order].next = channel
 
           channel.clients = channel.clients.map((client)=>{
             return {
@@ -88,7 +89,7 @@ $(function(){
             clients.add({client})
           })
 
-          channels.add(channel)
+          channels[channel.id] = $.extend({},channel)
         })
 
         //remove excess channels
@@ -96,9 +97,8 @@ $(function(){
 
         //sort children
         var sortChildren = function(parent){
-          parent.children.sort(
-            (a,b) => {return a.order - b.order}
-          )
+          
+
           parent.children.forEach( (child)=>{
             sortChildren(child)
           })
