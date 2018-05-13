@@ -99,11 +99,17 @@ $(function(){
       })
   }
 
+  function changeInstance(uuid, name){
+    current_instance = {uuid, name}
+    fillChannels()
+  }
+
   function attachInstancesDropdown(){
     $('#select_instance_options').children().click( function(e){
       $t = $(e.target)
       $('#select_instance').text( $t.text() )
-      current_instance = $t.data('uuid')
+
+      changeInstance($t.data('uuid'), $t.text())
     })
   }
   function renderChannels(){
@@ -113,7 +119,6 @@ $(function(){
   function initialize(){
     fillInstances()
       .done(attachInstancesDropdown)
-      .done(fillChannels)
   }
 
   initialize()
