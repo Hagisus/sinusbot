@@ -123,6 +123,11 @@ $(function(){
       changeInstance($t.data("uuid"), $t.text())
     })
   }
+  function attachRefreshButtons(){
+    $("#refresh_channels_button").click((e)=>{
+      fillChannels()
+    })
+  }
 
   function renderClients($root, clients){
     clients.forEach( (client)=>{
