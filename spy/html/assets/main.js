@@ -150,12 +150,27 @@ $(function(){
   }
 
   function renderClients($root, clients){
+    //THIS CODE MUST BE OPTIMISED!
     clients.forEach( (client)=>{
       $("<li>")
         .addClass("client" + (client.nick == current_instance.name ? " me" : ""))
         .text(client.nick)
         .attr("id", "client_"+client.id)
         .data('client_id', client.id)
+        .append(
+          $("<div>")
+          .addClass("float-right")
+          .append(
+            $("<button>")
+            .addClass("btn btn-small btn-light")
+            .html('<i class="fas fa-comment"></i>')
+          )
+          .append(
+            $("<button>")
+            .addClass("btn btn-small btn-light")
+            .html('<i class="fas fa-exclamation"></i>')
+          )
+        )
         .appendTo($root)
     })
   }
