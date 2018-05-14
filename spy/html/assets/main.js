@@ -5,15 +5,30 @@ $(function () {
   var clients = new Set()
 
   function doRequest(url, data) {
+    if (data) return doRequestPost(url, data)
+
     var req_settings = {
       headers: {
         "Authorization": "bearer " + localStorage.getItem("token")
       },
       dataType: "json",
     }
+
+    return $.ajax(url, req_settings)
+  }
+
+  function doRequestPost(url, data) {
+    var req_settings = {
+      headers: {
+        "Authorization": "bearer " + localStorage.getItem("token")
+      },
+      dataType: "json",
+    }
+
+    req_settings.method = "POST"
+
     if (data) {
       req_settings.headers["Content-Type"] = "application/json"
-      req_settings.method = "POST"
       req_settings.data = data
     }
 

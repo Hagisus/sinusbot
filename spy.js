@@ -25,7 +25,7 @@ registerPlugin({
     channels = backend.getChannels()
     clients = backend.getClients()
 
-    event.on("api:testecho", function (dateva) {
+    event.on("api:testecho", function (ev) {
         var res = "Returned: " + ev.data()
 
         return {
