@@ -1,15 +1,17 @@
-$(function(){
+$(function () {
   var current_instance = null
   var channels_tree = []
   var channels = []
   var clients = new Set()
 
-  function doRequest(url, data){
+  function doRequest(url, data) {
     var req_settings = {
-      headers: {"Authorization": "bearer "+localStorage.getItem("token")},
+      headers: {
+        "Authorization": "bearer " + localStorage.getItem("token")
+      },
       dataType: "json",
     }
-    if (data){
+    if (data) {
       req_settings.headers["Content-Type"] = "application/json"
       req_settings.method = "POST"
       req_settings.data = data
@@ -17,30 +19,33 @@ $(function(){
 
     return $.ajax(url, req_settings)
   }
-  function requestInstances(){
+
+  function requestInstances() {
     return doRequest("/api/v1/bot/instances")
   }
-  function requestChannels(){
-    return doRequest("/api/v1/bot/i/"+current_instance.uuid+"/channels")
+
+  function requestChannels() {
+    return doRequest("/api/v1/bot/i/" + current_instance.uuid + "/channels")
   }
 
-  function fillInstances(){
+  function fillInstances() {
 
-    return requestInstances().done(function(data){
-      data.forEach((instance)=>{
+    return requestInstances().done(function (data) {
+      data.forEach((instance) => {
         $("#select_instance_options").append(
           $('<a class="dropdown-item" href="#">')
-            .data("uuid", instance["uuid"])
-            .text(instance["nick"])
+          .data("uuid", instance["uuid"])
+          .text(instance["nick"])
         )
       })
-      
+
     })
 
   }
-  function fillChannels(){
+
+  function fillChannels() {
     return requestChannels()
-      .done(function(data){
+      .done(function (data) {
         //reset data
         var _channels = []
         clients.clear()
@@ -55,7 +60,7 @@ $(function(){
           children: []
         }
 
-        data.forEach((channel)=>{
+        data.forEach((channel) => {
           //copy data from request to array
           _channels[channel["id"]] = {
             id: channel.id,
@@ -69,12 +74,12 @@ $(function(){
         })
 
         //fill children array and limit clients info
-        _channels.forEach((channel)=>{
+        _channels.forEach((channel) => {
           if (channel.parent != -1)
             _channels[channel.parent].children.push(channel)
           if (channel.order > 0) _channels[channel.order].next = channel
 
-          channel.clients = channel.clients.map((client)=>{
+          channel.clients = channel.clients.map((client) => {
             return {
               id: client.id,
               uid: client.uid,
@@ -84,12 +89,14 @@ $(function(){
           })
 
           //copy clients
-          channel.clients.sort( (a,b)=>{return a.nick.localeCompare(b.nick)})
-          channel.clients.forEach((client)=>{
+          channel.clients.sort((a, b) => {
+            return a.nick.localeCompare(b.nick)
+          })
+          channel.clients.forEach((client) => {
             clients.add(client)
           })
 
-          channels[channel.id] = $.extend({},channel)
+          channels[channel.id] = $.extend({}, channel)
         })
         delete _channels[0].next
 
@@ -97,25 +104,28 @@ $(function(){
         channels_tree[0] = _channels[0]
 
         //sort children
-        var sortChildren = function(parent){
+        var sortChildren = function (parent) {
           //make sure, that the order:0 is the first child
-          parent.children.sort( (a,b) => {return a.order-b.order;} )
+          parent.children.sort((a, b) => {
+            return a.order - b.order;
+          })
 
-          parent.children.forEach( (child)=>{
+          parent.children.forEach((child) => {
             sortChildren(child)
           })
         }
         sortChildren(channels_tree[0])
-        
+
         renderChannels()
       })
   }
-  function fillClients(){
-    $target =  $("#message_target").empty()
-    clients.forEach( (client) =>{
+
+  function fillClients() {
+    $target = $("#message_target").empty()
+    clients.forEach((client) => {
       if (client.nick == current_instance.name)
         return
-        
+
       $("<option>")
         .val(client.id)
         .text(client.nick)
@@ -123,39 +133,43 @@ $(function(){
     })
   }
 
-  function changeInstance(uuid, name){
-    current_instance = {uuid, name}
+  function changeInstance(uuid, name) {
+    current_instance = {
+      uuid,
+      name
+    }
 
     fillChannels().done(fillClients)
   }
 
-  function attachInstancesDropdown(){
+  function attachInstancesDropdown() {
     $("#select_instance_options")
       .children()
       .off("click")
-      .click( function(e){
+      .click(function (e) {
         $t = $(e.target)
-        $("#select_instance").text( $t.text() )
+        $("#select_instance").text($t.text())
 
         changeInstance($t.data("uuid"), $t.text())
       })
       .first().click()
   }
-  function attachRefreshButtons(){
+
+  function attachRefreshButtons() {
     $("#refresh_channels_button")
       .off("click")
-      .click((e)=>{
+      .click((e) => {
         fillChannels()
       })
   }
 
-  function renderClients($root, clients){
+  function renderClients($root, clients) {
     //THIS CODE MUST BE OPTIMISED!
-    clients.forEach( (client)=>{
+    clients.forEach((client) => {
       $("<li>")
         .addClass("client" + (client.nick == current_instance.name ? " me" : ""))
         .text(client.nick)
-        .attr("id", "client_"+client.id)
+        .attr("id", "client_" + client.id)
         .data('client_id', client.id)
         .append(
           $("<div>")
@@ -175,23 +189,23 @@ $(function(){
     })
   }
 
-  function renderChannel($root, channel){
+  function renderChannel($root, channel) {
     var element
     var spacer_re = /^\[spacer\d+\]$/
 
-    while(true){
+    while (true) {
       element = $("<li>")
-          .addClass("channel")
-          .attr("id", "channel_"+channel.id)
-          .data('channel_id', channel.id)
-          
-      if (!spacer_re.test(channel.name)){
+        .addClass("channel")
+        .attr("id", "channel_" + channel.id)
+        .data('channel_id', channel.id)
+
+      if (!spacer_re.test(channel.name)) {
         //normal channel with name
         element
           .addClass(channel.maxClients != 0 ? "opened" : "closed")
           .text(channel.name)
-        
-      }else{
+
+      } else {
         //spacer
         element.html("&nbsp;")
       }
@@ -199,32 +213,32 @@ $(function(){
       element.appendTo($root)
 
       //clients and children channels
-      if (channel.children.length > 0 || channel.clients.length > 0){
+      if (channel.children.length > 0 || channel.clients.length > 0) {
         var $children = $("<ul>").appendTo($root)
 
-        if (channel.clients.length > 0 ) renderClients($children, channel.clients)
+        if (channel.clients.length > 0) renderClients($children, channel.clients)
         if (channel.children.length > 0) renderChannel($children, channel.children[0])
       }
-      
+
       if (!channel.next)
         break
       channel = channel.next
     }
   }
 
-  function renderChannels(){
+  function renderChannels() {
     var $root = $("#roomsTree").empty()
     renderChannel($root, channels_tree[0])
   }
 
-  function initialize(){
+  function initialize() {
     fillInstances()
       .done(attachInstancesDropdown)
       .done(attachRefreshButtons)
   }
 
   initialize()
-  
+
   //temporary variable for debugging purposes
   window.__debuggk = this
 })
