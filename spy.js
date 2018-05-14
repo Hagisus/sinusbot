@@ -16,16 +16,11 @@ registerPlugin({
         backend = require('backend'),
         event = require('event')
 
-
-    if (!config.clientUids) {
-        engine.log('Invalid clientUids')
-        return
-    }
-
     channels = backend.getChannels()
     clients = backend.getClients()
 
     event.on("api:testecho", function (ev) {
+        engine.log('Echo CALL', ev)
         var res = "Returned: " + ev.data()
 
         return {
